@@ -13,7 +13,12 @@ const createWindow = () => {
         },
     });
 
-    mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV === 'development') {
+        mainWindow.loadURL('http://localhost:3000');
+    } else {
+        // mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+    }
 
     Menu.setApplicationMenu(null);
 
@@ -22,7 +27,7 @@ const createWindow = () => {
     });
 };
 
-app.on('ready', createWindow);
+app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
